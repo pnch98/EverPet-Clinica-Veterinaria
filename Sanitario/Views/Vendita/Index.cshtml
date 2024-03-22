@@ -1,0 +1,62 @@
+﻿@model IEnumerable<Sanitario.Models.Vendita>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<div>
+    <div class="d-flex justify-content-between align-items-baseline">
+        <h1>Vendite</h1>
+
+        <p class="text-center">
+            <a class="btn btn-transparent " asp-action="Create"><i class="bi bi-plus-circle fs-3 primaryText"></i></a>
+        </p>
+    </div>
+    <div class="blurredWhite rounded p-2 shadow" style="max-height: 450px; overflow-y: auto">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DataVendita)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PrezzoTotale)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Cliente)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DataVendita)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PrezzoTotale)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Cliente.CodiceFiscale)
+                        </td>
+                        
+                        <td class="text-end">
+                            <a class="btn btn-transparent" asp-action="Edit" asp-route-id="@item.IdVendita"><i class="bi bi-pencil fs-5 text-success"></i></a>
+                            <a class="btn btn-transparent" asp-action="Delete" asp-route-id="@item.IdVendita"><i class="bi bi-trash fs-5 text-danger"></i></a>
+
+
+                            <a class="btn btn-transparent" asp-action="Details" asp-route-id="@item.IdVendita"><i class="bi bi-info-circle fs-5 text-info"></i></a>
+                            
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+

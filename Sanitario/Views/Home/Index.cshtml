@@ -1,0 +1,61 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    Layout = "_HomeLayout";
+}
+
+<div>
+    <h1 class="display-4 fw-bold">Benvenuto a EverPet</h1>
+    <h3 class="mb-3">Se hai smarrito il tuo animale, prova a cercarlo tramite il suo </br> microchip!</h3>
+
+    <div class="mb-3">
+        <label for="microchip" class="mb-1">Inserisci il numero di microchip</label>
+        <div class="d-flex align-items-center mb-2">
+            <input id="microchip" name="microchip" placeholder="Numero microchip" class="rounded-pill border border-1 px-3 py-2 me-2" required />
+            <button class="btn btn-primary" id="search">Cerca</button>
+        </div>
+        <p id="feedback" class="d-inline-block alert alert-danger d-none mb-0"></p>
+    </div>
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#search").click(async function () {
+            var numeroMicrochip = $("#microchip").val();
+
+            if (numeroMicrochip) {
+                try {
+                    const response = await fetch('/Home/SearchAnimale?numeroMicrochip=' + numeroMicrochip);
+                    if (!response.ok) {
+                        throw new Error('HTTP error! status: ' + response.status);
+                    }
+                    const data = await response.json();
+                    console.log(data);
+                    var result = data.animale;
+
+                    if (result == null) {
+                        $("#feedback").text("Nessun animale trovato.");
+                        $("#feedback").removeClass("d-none");
+                        setTimeout(() => {
+                            $("#feedback").addClass("d-none");
+                        }, 2000);
+                    } else {
+                        $("#result").empty();
+                        
+                        location.assign("/AnimaleSmarrito/Details/" + result.idAnimaleSmarrito);    
+                    }
+
+
+                } catch (error) {
+                    console.error('Error fetching data:', error);
+                }
+            } else {
+                $("#feedback").text("Inserisci il numero del microchip");
+                $("#feedback").removeClass("d-none");
+                setTimeout(() => {
+                    $("#feedback").addClass("d-none");
+                }, 2000);
+            }
+        });
+    });
+</script>
+

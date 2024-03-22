@@ -1,0 +1,258 @@
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+    background: rgb(178,216,229);
+    background: linear-gradient(165deg, rgba(178,216,229,1) 0%, rgba(150,175,184,1) 62%);
+    color: #22306B;
+}
+
+.primary {
+    color: #B2D8E5;
+}
+
+.secondary {
+    color: #96AFB8;
+}
+
+.tertiary {
+    color: #334A52;
+}
+
+.yellowPet {
+    color: #F6EF7D;
+}
+
+.yellowPetBg {
+    background-color: #F6EF7D;
+}
+
+.primaryBg {
+    background-color: #B2D8E5;
+}
+
+.secondaryBg {
+    background-color: #96AFB8;
+}
+
+.tertiaryBg {
+    background-color: #334A52;
+}
+
+.animalCardBg {
+    background-color: #F1F289;
+}
+
+#mainContainer {
+    min-height: 75vh;
+    background-image: url('/imgs/site/backgroundImage.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position-x: right;
+}
+
+.primaryText {
+    color: #22306B;
+}
+
+#registerPet {
+    width: 100%;
+    height: 100%;
+    background-image: url("/imgs/site/360_F_541182743_kr9eoCdi1hGPRXNFbFM2DYKNtISnmLQe.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 10px;
+}
+
+#visitaSection {
+    width: 100%;
+    height: 100%;
+    background-image: url("/imgs/site/Cane1.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 10px;
+}
+
+#venditaSection {
+    width: 100%;
+    height: 100%;
+    background-image: url("/imgs/site/istockphoto-1457952279-170667a.webp");
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 10px;
+}
+
+#prodottiSection {
+    width: 100%;
+    height: 100%;
+    background-image: url("/imgs/site/Untitled_design_-_2023-06-20T145027.117.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 10px;
+}
+
+.functionSection {
+    transition: transform 200ms ease-in-out;
+    box-shadow: 0px 0px 5px black;
+}
+
+    .functionSection:hover {
+        transform: scale(1.1);
+        z-index: 900;
+        box-shadow: 0px 0px 10px black;
+        cursor: pointer;
+    }
+#yellowSplash {
+    background-image: url("/imgs/site/backgroundImage4.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+/* SEZIONE ANIMALE */
+#animaleSplash {
+    background-image: url("/imgs/site/backgroundAnimale.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.animalePrimaryBtn {
+    background-color: #fc5f82;
+    color: white;
+}
+    .animalePrimaryBtn:hover {
+        background-color: #F97794;
+        color: white;
+    }
+.animaleSecondaryLink {
+    text-decoration: none;
+    color: #C468A9;
+}
+    .animaleSecondaryLink:hover {
+        text-decoration: unset;
+        color: #c181ae;
+    }
+    /* SEZIONE VISITA */
+    #visitaSplash {
+        background-image: url("/imgs/site/backgroundVisita.png");
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+.visitaSecondaryBtn {
+    background-color: #DB227A;
+    color: white;
+}
+    .visitaSecondaryBtn:hover {
+        background-color: #db488e;
+        color: white;
+    }
+.visitaTertiaryBtn {
+    background-color: #34517D;
+    color: white;
+}
+    .visitaTertiaryBtn:hover {
+        background-color: #425b80;
+        color: white;
+    }
+#venditaSplash {
+    background-image: url("/imgs/site/backgroundVendita.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+#prodottiSplash {
+    background-image: url("/imgs/site/backgroundProdotti.png");
+    background-size: cover;
+}
+.navBg {
+    background-color: #ffffff41;
+    backdrop-filter: blur(2px);
+}
+.blurred {
+    background-color: #ffffff33;
+    backdrop-filter: blur(2px);
+}
+.blurredWhite {
+    background-color: #ffffff9d;
+    backdrop-filter: blur(2px);
+}
+.roundedCard {
+    border-radius: 20px;
+}
+.cassettoPos {
+    position: absolute;
+    top: 15%;
+    right: 31.5%;
+}
+.arrow1 {
+    position: absolute;
+    top: 30%;
+    right: 20%;
+    margin-bottom: 0;
+}
+.arrow2 {
+    position: absolute;
+    top: 50%;
+    right: 20%;
+    margin-bottom: 0;
+}
+.arrow3 {
+    position: absolute;
+    top: 70%;
+    right: 20%;
+    margin-bottom: 0;
+}
+#petsIndex {
+    width: 100%;
+    height: 100%;
+    background-image: url("/imgs/site/pets-3715733_640.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 10px;
+}
+#ricovero {
+    width: 100%;
+    height: 100%;
+    background-image: url("/imgs/site/ai-generated-cat-and-dog-together-with-happy-expressions-on-yellow-background-ai-generated-photo.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 10px;
+}
+#createProd {
+    width: 100%;
+    height: 100%;
+    background-image: url("/imgs/site/cute-bunny.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 10px;
+}
+#stats {
+    width: 100%;
+    height: 100%;
+    background-image: url("/imgs/site/E235EE4C-5D9A-44A3-9D0E30F0035C3151_source.webp");
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 10px;
+}
+
+#dipendenti {
+    width: 100%;
+    height: 100%;
+    background-image: url("/imgs/site/istockphoto-1201014996-170667a.webp");
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 10px;
+}

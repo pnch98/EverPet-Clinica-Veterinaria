@@ -1,0 +1,61 @@
+﻿@model Sanitario.Models.Prodotto
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+
+<div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center blurredWhite rounded p-2 shadow">
+        <div class="d-flex flex-column align-items-center">
+            <h1>Aggiungi un nuovo prodotto</h1>
+            <div class="d-flex">
+                <form asp-action="Create" class="me-5">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group mb-2">
+                        <label asp-for="Nome" class="control-label"></label>
+                        <input asp-for="Nome" class="form-control" />
+                        <span asp-validation-for="Nome" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label asp-for="Descrizione" class="control-label"></label>
+                        <input asp-for="Descrizione" class="form-control" />
+                        <span asp-validation-for="Descrizione" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label asp-for="Prezzo" class="control-label"></label>
+                        <input asp-for="Prezzo" class="form-control" />
+                        <span asp-validation-for="Prezzo" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label asp-for="TipoProdotto" class="control-label"></label>
+                        <select asp-for="TipoProdotto" class="form-control" >
+                            <option value="Comune">Comune</option>
+                            <option value="Medicinale">Medicinale</option>
+                        </select>
+                        <span asp-validation-for="TipoProdotto" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="IdCassetto" class="control-label"></label>
+                        <select asp-for="IdCassetto" class="form-control" asp-items="@ViewBag.Cassetti"></select>                      
+                        <span asp-validation-for="IdCassetto" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+
+
+@section Scripts {
+    <script>
+
+    </script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

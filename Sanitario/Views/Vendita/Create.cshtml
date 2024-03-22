@@ -1,0 +1,199 @@
+﻿@model Sanitario.Models.Vendita
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center blurredWhite rounded p-2 shadow">
+
+        <div class="d-flex flex-column align-items-center">
+            <h1 class="text-center">Effettua una vendita</h1>
+            <div class="d-flex">
+                <form asp-action="Create" class="me-5">
+                    <div asp-validation-summary="ModelOnly" class="text-danger" class="d-felx"></div>
+                    <div class="">
+                        <div class="form-group mb-2">
+                            <label asp-for="IdCliente" class="control-label"></label>
+                            <select id="selectedCliente" asp-for="IdCliente" class="form-control" asp-items="ViewBag.IdCliente">
+                                <option>-- Seleziona utente --</option>
+                            </select>
+                        </div>
+                        <div class="form-group mb-2">
+                            <label class="control-label">Visite</label>
+                            <select id="selectedVisite" class="form-control">
+                                <option>-- Seleziona visita --</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" name="idVisita" id="idVisita" value="" />
+                            <input type="hidden" name="idCura" id="idCura" value="" />
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="form-group mb-3">
+                            <label class="control-label">Acquista altri prodotti</label>
+                            <select id="products" class="form-control" asp-items="ViewBag.Products">
+                                <option>-- Seleziona prodotto --</option>
+                            </select>
+                            <input type="hidden" id="productsListInput" name="productsList" value="" />
+                        </div>
+
+                    </div>
+                    
+
+                    <div class="form-group">
+                        <input type="submit" value="Conferma" class="btn btn-primary mb-3" />
+                    </div>
+                    <div>
+                        <a asp-action="Index" class="text-black shadow">Visualizza la lista completa delle vendite</a>
+                    </div>
+                    
+                </form>
+
+                <div id="curePrescritte" style="max-height: 240px; overflow-y: auto" class="me-5"></div>
+                <div id="productsDiv" style="max-height: 240px; overflow-y: auto">
+                    @{
+                        var session = ViewData["Session"];
+                        if (session != null)
+                        {
+                            <h4>Prodotti</h4>
+                            foreach (var product in ViewData["Session"] as List<Prodotto>)
+                            {
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <p class="mb-0 me-2">@product.Nome - @product.Prezzo €</p>
+                                    <button data-product-id="@product.IdProdotto" type="button" class="btn-sm btn-danger remove-product"><i class="bi bi-trash3"></i></button>
+                                </div>
+                            }
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async function () {
+
+            document.getElementById('selectedCliente').addEventListener('change', async function () {
+                $('#curePrescritte').empty();
+                var idCliente = this.value;
+                console.log("IdCliente: ", idCliente);
+                try {
+                    const response = await fetch('/Vendita/GetVisite?idCliente=' + idCliente);
+                    if (!response.ok) {
+                        throw new Error('HTTP error! status: ' + response.status);
+                    }
+                    const data = await response.json();
+                    console.log("myData: ", data)
+                    // Rimuove tutte le opzioni esistenti
+                    $('#selectedVisite').empty();
+                    $('#selectedVisite').append($('<option>', {
+                        text: "--Seleziona visita --"
+                    }));
+                    // Aggiunge le nuove opzioni
+                    data.listaVisite.forEach(function (visita) {
+                        $('#selectedVisite').append($('<option>', {
+                            value: visita.id, // Valore dell'opzione (id della visita)
+                            text: visita.nomeAnimale + " (" + visita.esame + " - " + visita.data + ")" // Testo dell'opzione (nome della visita)
+                        }));
+                    });
+                } catch (error) {
+                    console.error('Error fetching data:', error);
+                }
+            });
+            document.getElementById('selectedVisite').addEventListener('change', async function () {
+                var idVisita = this.value;
+                document.getElementById("idVisita").value = idVisita;
+                try {
+                    const response = await fetch('/Vendita/GetCure?idVisita=' + idVisita);
+                    if (!response.ok) {
+                        throw new Error('HTTP error! status: ' + response.status);
+                    }
+                    const data = await response.json();
+                    console.log(data)
+                    // Rimuove tutte le opzioni esistenti
+                    $('#curePrescritte').empty();
+                    $('#curePrescritte').append('<h4>Medicinali</h4>')
+
+                    // Aggiunge le nuove opzioni
+                    data.listaCure.forEach(function (cura) {
+                        $('#curePrescritte').append($('<p>', {
+                            text: cura.prodotto.nome + " " + cura.prodotto.prezzo + "€" // Testo dell'opzione (nome della visita)
+                        }));
+                    });
+                } catch (error) {
+                    console.error('Error fetching data:', error);
+                }
+            })
+
+            $("#products").change(async function () {
+                var idProduct = this.value;
+                var textProduct = $(this).find('option:selected').text();
+                try {
+                    const response = await fetch('/Vendita/AddProductToSession?idProdotto=' + idProduct, {
+                        method: 'POST' // Specifica il metodo come 'POST'
+                    });
+                    if (!response.ok) {
+                        throw new Error('HTTP error! status: ' + response.status);
+                    }
+                    const data = await response.json();
+                    console.log(data)
+                    // Rimuove tutte le opzioni esistenti
+                    $('#productsDiv').empty();
+                    $('#productsDiv').append('<h4>Prodotti</h4>')
+
+                    // Aggiunge le nuove opzioni
+                    data.list.forEach(function (product) {
+                        $('#productsDiv').append($(`
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <p class="mb-0 me-2">${product.nome} - ${product.prezzo} €</p>
+                                            <button data-product-id="${product.idProdotto}" type="button" class="btn-sm btn-danger remove-product"><i class="bi bi-trash3"></i></button>
+                                        </div>
+                                        `));
+                    });
+                } catch (error) {
+                    console.error('Error fetching data:', error);
+                }
+            })
+
+
+            $("#productsDiv").on('click', '.remove-product', async function (event) {
+                var idProduct = $(this).data('product-id');
+
+                try {
+                    const response = await fetch('/Vendita/RemoveProductFromSession?idProdotto=' + idProduct, {
+                        method: 'POST' // Specifica il metodo come 'POST'
+                    });
+                    if (!response.ok) {
+                        throw new Error('HTTP error! status: ' + response.status);
+                    }
+                    const data = await response.json();
+
+                    $('#productsDiv').empty();
+                    if (data.list.length > 0) {
+                        $('#productsDiv').append('<h4>Prodotti</h4>')
+
+                        data.list.forEach(function (product) {
+                            $('#productsDiv').append($(`
+                                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                                    <p class="mb-0 me-2">${product.nome} - ${product.prezzo} €</p>
+                                                    <button data-product-id="${product.idProdotto}" type="button" class="btn-sm btn-danger remove-product"><i class="bi bi-trash3"></i></button>
+                                                </div>
+                                                    `));
+                        });
+                    }
+
+                } catch (error) {
+                    console.error('Error fetching data:', error);
+                }
+            });
+        });
+    </script>
+}
+

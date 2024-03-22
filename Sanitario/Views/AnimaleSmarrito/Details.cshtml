@@ -1,0 +1,65 @@
+﻿@model Sanitario.Models.AnimaleSmarrito
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="row justify-content-center">
+    
+    <div class="col-6">
+        <div class="d-flex justify-content-center">            
+                <img  src="/imgs/@Model.Foto" class="img-fluid rounded-3" />         
+        </div>   
+    </div>
+
+    <div class="col-3">
+        <div class="">
+            <p>
+                <strong>@Html.DisplayNameFor(model => model.Nome): </strong> @Html.DisplayFor(model => model.Nome)
+            </p>
+
+            <p>
+                <strong>@Html.DisplayNameFor(model => model.Tipologia): </strong> @Html.DisplayFor(model => model.Tipologia)
+            </p>
+
+            <p>
+                <strong>@Html.DisplayNameFor(model => model.DataRegistrazione): </strong> @Html.DisplayFor(model => model.DataRegistrazione)
+            </p>
+
+            <p>
+                <strong>@Html.DisplayNameFor(model => model.DataNascita): </strong> @Html.DisplayFor(model => model.DataNascita)
+            </p>
+
+            <p>
+                <strong>@Html.DisplayNameFor(model => model.ColoreMantello): </strong> @Html.DisplayFor(model => model.ColoreMantello)
+            </p>
+
+            <p>
+                <strong>@Html.DisplayNameFor(model => model.CodiceFiscaleProprietario): </strong> @Html.DisplayFor(model => model.CodiceFiscaleProprietario)
+            </p>
+
+            <p>
+                <strong>@Html.DisplayNameFor(model => model.Microchip): </strong> @Html.DisplayFor(model => model.Microchip)
+            </p>
+
+            <p>
+                <strong>@Html.DisplayNameFor(model => model.DataInizioRicovero): </strong> @Html.DisplayFor(model => model.DataInizioRicovero)
+            </p>
+            @{
+                if (User.IsInRole("Admin") || User.IsInRole("Veterinario"))
+                {
+                    <div>
+                        <a asp-action="Edit" asp-route-id="@Model?.IdAnimaleSmarrito"><i class="bi bi-pencil fs-5 text-success"></i></a>
+                       
+                    </div>
+                    <div>
+                        <a asp-action="Index" class="text-black shadow">Visualizza la lista completa degli animali smarriti</a>
+                    </div>
+                }
+            } 
+        </div>
+    </div>
+</div>
+
+
+

@@ -1,0 +1,83 @@
+﻿<div class="blurredWhite rounded p-2">
+    <h2 class="text-center mb-3">Scegli le statistiche da visualizzare</h2>
+    <div class="row">
+        <div class="col d-flex justify-content-center">
+            <div class="d-flex flex-column">
+                <h4>Medicinali per data</h4>
+                <div class="me-3 mb-3">
+                    <label>Inserisci una data</label>
+                    <div>
+                        <input id="date" type="date" />
+                        <button id="btnDate" class="btn btn-primary">Cerca</button>
+                    </div>
+                </div>
+                <div id="dateResult" class="bg-white shadow rounded"></div>
+            </div>
+        </div>
+        <div class="col d-flex justify-content-center">
+            <div class="d-flex flex-column">
+                <h4>Medicinali per cliente</h4>
+                <div class="me-3 mb-3">
+                    <label>Inserisci un codice fiscale</label>
+                    <div>
+                        <input id="codiceFiscale" />
+                        <button id="btncf" class="btn btn-primary">Cerca</button>
+                    </div>
+                </div>
+                <div id="cfResult" class="bg-white shadow rounded"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#btnDate").click(function () {
+            var dateValue = $("#date").val();
+            $.get("/Prodotto/GetMedicinaleByDate?data=" + dateValue )
+                .done(function (data) {
+                    // Funzione da eseguire quando la richiesta ha successo
+                    console.log("Dati ricevuti:", data);
+                    if (data.length > 0) {
+                        $("#dateResult").addClass("p-2");
+                        $("#dateResult").empty();
+                        data.forEach(item => {
+                            $("#dateResult").append(`<p>${item.nome}</p>`);
+                        })
+                    } else {
+                        $("#dateResult").removeClass("p-2");
+                        $("#dateResult").empty();
+                        $("#dateResult").append(`<p>Non sono stati venduti medicinali in questa data.</p>`);
+                    }
+                })
+                .fail(function () {
+                    // Funzione da eseguire in caso di errore nella richiesta
+                    console.error("Errore durante la richiesta.");
+                });
+        });
+        $("#btncf").click(function () { 
+            var codiceFiscale = $("#codiceFiscale").val();
+            $.get("/Prodotto/GetMedicinaliByCF?codiceFiscale=" + codiceFiscale)
+                .done(function (data) {
+                    // Funzione da eseguire quando la richiesta ha successo
+                    console.log("Dati ricevuti:", data);
+                    if (data.length > 0) {
+                        $("#cfResult").addClass("p-2");
+                        $("#cfResult").empty();
+                        data.forEach(item => {
+                            $("#cfResult").append(`<p>${item.nome}</p>`);
+                        })
+                    } else {
+                        $("#cfResult").removeClass("p-2");
+                        $("#cfResult").empty();
+                        $("#cfResult").append(`<p>Non sono stati venduti medicinali in questa data.</p>`);
+                    }
+                })
+                .fail(function () {
+                    // Funzione da eseguire in caso di errore nella richiesta
+                    console.error("Errore durante la richiesta.");
+                });
+        });
+    });
+</script>

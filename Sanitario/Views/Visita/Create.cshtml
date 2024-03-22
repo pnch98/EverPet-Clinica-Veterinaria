@@ -1,0 +1,105 @@
+﻿@model Sanitario.Models.Visita
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center blurredWhite rounded p-2 shadow">
+        <div class="d-flex flex-column align-items-start me-5">
+
+            <h1>Registra una visita</h1>
+
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="d-flex mb-3">
+                    <div class="form-group me-3">
+                        <label class="control-label">Animale</label>
+                        <select asp-for="IdAnimale" class="form-control" asp-items="ViewBag.IdAnimale"></select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Esame" class="control-label"></label>
+                        <input asp-for="Esame" class="form-control" />
+                        <span asp-validation-for="Esame" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group mb-5">
+                    <label for="Medicinali">Medicinali</label>
+                    @Html.ListBox("Medicinali", (MultiSelectList)ViewBag.ListaMedicinali, new { @class = "form-control" })
+                    <div class="d-flex justify-content-end">
+
+                        <button type="button" class="btn visitaSecondaryBtn mt-4 " onclick="addMedicinali()">Aggiungi</button>
+                    </div>
+                </div>
+                <div class="form-group d-flex flex-column align-items-center ">
+                    <input type="submit" value="Registra" class="btn visitaTertiaryBtn w-75 mb-2" />
+                    <div>
+                        <a style="color: #fc5f82;" asp-action="Index">Back to List</a>
+                    </div>
+                </div>
+            </form>
+
+
+        </div>
+        <div class="roundedCard" style="max-height: 350px">
+            <div id="listaMedicinaliSelezionati" class="h-100 overflow-auto"></div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        let medicinaliArr = [];
+        let addMedicinali = () => {
+            let select = document.getElementById("Medicinali");
+            let idMedicinale = select.value;
+            let nomeMedicinale = select.options[select.selectedIndex].text;
+            if (!medicinaliArr.includes(idMedicinale)) {
+                medicinaliArr.push(idMedicinale);
+                let list = document.getElementById("listaMedicinaliSelezionati");
+
+                let container = document.createElement("div");
+                container.className = "d-flex align-items-baseline justify-content-between pt-3 px-3";
+                container.id = "container-" + idMedicinale;
+
+                let medicinale = document.createElement("p");
+                medicinale.className = "mb-0";
+                medicinale.id = "medicinale-" + idMedicinale;
+                medicinale.innerHTML = nomeMedicinale;
+
+                let removeButton = document.createElement("button");
+                removeButton.className = "btn btn-sm btn-danger ms-3";
+                removeButton.innerHTML = '<i class="bi bi-trash3"></i>';
+                removeButton.type = "button";
+                removeButton.onclick = () => removeMedicinale(idMedicinale);
+
+                container.appendChild(medicinale);
+                container.appendChild(removeButton);
+                list.appendChild(container);
+
+                let hiddenField = document.createElement("input");
+                hiddenField.type = "hidden";
+                hiddenField.name = "MedicinaliSelezionati";
+                hiddenField.value = idMedicinale;
+
+                let form = document.querySelector("form");
+                form.appendChild(hiddenField);
+            }
+
+            let removeMedicinale = (idMedicinale => {
+                let index = medicinaliArr.indexOf(idMedicinale);
+                if (index > -1) {
+                    medicinaliArr.splice(index, 1);
+                    let container = document.getElementById("container-" + idMedicinale);
+                    container.parentNode.removeChild(container);
+
+                    let hiddenField = document.querySelector("input[name='MedicinaliSelezionati'][value='" + idMedicinale + "']");
+                    hiddenField.parentNode.removeChild(hiddenField);
+                }
+            })
+        }
+    </script>
+}

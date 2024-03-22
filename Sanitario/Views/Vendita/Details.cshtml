@@ -1,0 +1,63 @@
+﻿@model Sanitario.Models.Vendita
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="blurredWhite rounded p-2">
+
+    <h1>Details</h1>
+
+    <div>
+        <h4>Vendita</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.DataVendita)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.DataVendita)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.PrezzoTotale)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.PrezzoTotale)€
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Cliente)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Cliente.CodiceFiscale)
+            </dd>
+        </dl>
+    </div>
+
+    <div class="">
+        <h5>Dettagli vendita</h5>
+        @{
+            <table class="table w-50 border border-dark ms-3 primaryText">
+                <tr>
+                    <th>Prodotto</th>
+                    <th>Prezzo</th>
+                </tr>
+                @foreach (var item in Model.DettagliVendite)
+                {
+                    <tr>
+                        <td>
+                            -@item.Prodotto.Nome
+                        </td>
+                        <td>
+                            @item.Prodotto.Prezzo€
+                        </td>
+                    </tr>
+                }
+            </table>
+        }
+    </div>
+</div>
+
+<div>
+    <a class="text-black fw-bold" asp-action="Edit" asp-route-id="@Model?.IdVendita">Torna alla lista delle vendite</a>
+    
+</div>
